@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Siddhant Aryan — QA Engineer Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0a0f;--surface:#11111a;--surface2:#18182a;--accent:#00e5ff;--accent2:#7c3aed;--accent3:#10b981;--accent4:#f59e0b;--text:#e8e8f0;--text-muted:#7a7a9a;--border:rgba(255,255,255,0.07);--glow:rgba(0,229,255,0.15);--glow2:rgba(124,58,237,0.15);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+.cursor{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:transform 0.15s ease;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(0,229,255,0.5);border-radius:50%;pointer-events:none;z-index:9998;transition:transform 0.35s cubic-bezier(.23,1,.32,1),width 0.3s,height 0.3s;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:0.4;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.4rem 4rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);letter-spacing:0.05em;text-decoration:none;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--text-muted);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-badge{font-family:'DM Mono',monospace;font-size:0.7rem;padding:0.3rem 0.9rem;border:1px solid var(--accent);color:var(--accent);border-radius:2rem;letter-spacing:0.06em;animation:pulse-border 2.5s ease infinite;}
+@keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(0,229,255,0.3);}50%{box-shadow:0 0 12px 4px rgba(0,229,255,0.15);}}
+
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);}
+.hero-orb1{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(124,58,237,0.18) 0%,transparent 70%);top:-100px;right:-100px;border-radius:50%;pointer-events:none;}
+.hero-orb2{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(0,229,255,0.12) 0%,transparent 70%);bottom:0;left:10%;border-radius:50%;pointer-events:none;}
+.hero-left{position:relative;z-index:2;}
+.hero-tag{display:inline-flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
+.hero-tag::before{content:'';width:24px;height:1px;background:var(--accent);}
+.hero-name{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.5rem,7vw,6rem);line-height:0.95;letter-spacing:-0.02em;margin-bottom:0.4rem;opacity:0;animation:fadeUp 0.8s 0.35s forwards;}
+.hero-name span{color:var(--accent);}
+.hero-role{font-family:'Syne',sans-serif;font-weight:600;font-size:clamp(1.2rem,2.5vw,1.8rem);color:var(--text-muted);margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s 0.5s forwards;}
+.hero-desc{font-size:1rem;line-height:1.7;color:var(--text-muted);max-width:480px;margin-bottom:2.5rem;opacity:0;animation:fadeUp 0.8s 0.65s forwards;}
+.hero-ctas{display:flex;gap:1rem;opacity:0;animation:fadeUp 0.8s 0.8s forwards;}
+.btn-primary{font-family:'DM Mono',monospace;font-size:0.82rem;letter-spacing:0.06em;padding:0.85rem 2rem;background:var(--accent);color:#000;border:none;border-radius:0.25rem;cursor:none;font-weight:500;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,229,255,0.3);}
+.btn-outline{font-family:'DM Mono',monospace;font-size:0.82rem;letter-spacing:0.06em;padding:0.85rem 2rem;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:0.25rem;cursor:none;text-decoration:none;transition:border-color 0.2s,color 0.2s;}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.hero-right{position:relative;z-index:2;display:flex;justify-content:flex-end;opacity:0;animation:fadeLeft 0.9s 0.5s forwards;}
+.terminal{width:420px;background:var(--surface);border:1px solid var(--border);border-radius:0.75rem;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);}
+.terminal-bar{display:flex;align-items:center;gap:0.5rem;padding:0.85rem 1.2rem;background:rgba(255,255,255,0.04);border-bottom:1px solid var(--border);}
+.t-dot{width:10px;height:10px;border-radius:50%;}
+.t-dot.red{background:#ff5f57;}.t-dot.yellow{background:#febc2e;}.t-dot.green{background:#28c840;}
+.t-title{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text-muted);margin-left:auto;}
+.terminal-body{padding:1.5rem;font-family:'DM Mono',monospace;font-size:0.8rem;line-height:2;}
+.t-line{display:flex;gap:0.75rem;}.t-prompt{color:var(--accent2);}.t-cmd{color:var(--text);}
+.t-output{color:var(--text-muted);padding-left:1.5rem;}.t-key{color:var(--accent);}.t-val{color:var(--accent3);}
+.t-cursor-blink{display:inline-block;width:8px;height:15px;background:var(--accent);animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px;}
+@keyframes blink{50%{opacity:0;}}
+
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.stat-item{padding:2.5rem 2rem;border-right:1px solid var(--border);position:relative;overflow:hidden;opacity:0;animation:fadeUp 0.7s forwards;}
+.stat-item:last-child{border-right:none;}
+.stat-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);transform:translateX(-100%);transition:transform 0.5s;}
+.stat-item:hover::before{transform:translateX(0);}
+.stat-num{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:0.4rem;}
+.stat-label{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;}
+
+/* SECTIONS */
+section{padding:6rem 4rem;}
+.section-label{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.75rem;}
+.section-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--accent);opacity:0.4;}
+.section-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3rem);line-height:1.1;margin-bottom:3rem;letter-spacing:-0.02em;}
+
+/* SKILLS */
+#skills{background:var(--surface);}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
+.skill-card{background:var(--bg);border:1px solid var(--border);border-radius:0.5rem;padding:1.5rem;transition:border-color 0.3s,transform 0.3s;position:relative;overflow:hidden;}
+.skill-card:hover{border-color:var(--accent);transform:translateY(-4px);}
+.skill-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--glow),transparent 60%);opacity:0;transition:opacity 0.4s;}
+.skill-card:hover::after{opacity:1;}
+.skill-cat{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;}
+.skill-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:0.5rem;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.75rem;}
+.skill-tag{font-family:'DM Mono',monospace;font-size:0.68rem;padding:0.25rem 0.65rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:1rem;color:var(--text-muted);}
+
+/* EXPERIENCE */
+.timeline{position:relative;padding-left:2rem;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--accent),var(--accent2),transparent);}
+.timeline-item{position:relative;padding:0 0 3.5rem 2.5rem;opacity:0;transform:translateY(20px);transition:opacity 0.6s,transform 0.6s;}
+.timeline-item.visible{opacity:1;transform:translateY(0);}
+.timeline-dot{position:absolute;left:-1.45rem;top:0.3rem;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 12px var(--accent);}
+.exp-period{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--accent);letter-spacing:0.08em;margin-bottom:0.5rem;}
+.exp-role{font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:0.2rem;}
+.exp-company{font-family:'DM Mono',monospace;font-size:0.82rem;color:var(--accent2);margin-bottom:0.25rem;}
+.exp-loc{font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;}
+.exp-desc{font-size:0.92rem;line-height:1.7;color:var(--text-muted);margin-bottom:1rem;max-width:680px;}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.exp-bullets li{display:flex;gap:0.75rem;font-size:0.9rem;line-height:1.6;color:var(--text-muted);}
+.exp-bullets li::before{content:'▸';color:var(--accent);flex-shrink:0;margin-top:0.05rem;}
+
+/* PROJECTS — FILTER */
+#projects{background:var(--surface);}
+.filter-bar{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.filter-btn{font-family:'DM Mono',monospace;font-size:0.7rem;padding:0.4rem 1rem;background:transparent;border:1px solid var(--border);border-radius:2rem;color:var(--text-muted);cursor:none;letter-spacing:0.06em;transition:all 0.2s;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,0.06);}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem;}
+.project-card{background:var(--bg);border:1px solid var(--border);border-radius:0.75rem;padding:2rem;transition:border-color 0.3s,transform 0.3s,opacity 0.3s;position:relative;overflow:hidden;display:flex;flex-direction:column;}
+.project-card.hidden{display:none;}
+.project-card:hover{border-color:rgba(0,229,255,0.4);transform:translateY(-6px);}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity 0.4s;}
+.project-card:hover::before{opacity:1;}
+.project-num{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--text-muted);opacity:0.4;margin-bottom:0.75rem;}
+.project-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;margin-bottom:0.35rem;line-height:1.2;}
+.project-sub{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--accent);margin-bottom:1rem;letter-spacing:0.05em;}
+.project-desc{font-size:0.87rem;line-height:1.7;color:var(--text-muted);margin-bottom:1rem;flex:1;}
+.project-highlights{list-style:none;display:flex;flex-direction:column;gap:0.35rem;margin-bottom:1.25rem;}
+.project-highlights li{display:flex;gap:0.5rem;font-size:0.8rem;color:var(--text-muted);line-height:1.5;}
+.project-highlights li::before{content:'→';color:var(--accent3);flex-shrink:0;}
+.project-stack{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.stack-tag{font-family:'DM Mono',monospace;font-size:0.63rem;padding:0.2rem 0.6rem;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);border-radius:1rem;color:#a78bfa;}
+.industry-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.18rem 0.55rem;border-radius:0.25rem;margin-bottom:0.6rem;letter-spacing:0.05em;}
+.badge-transport{background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.25);}
+.badge-edtech{background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.25);}
+.badge-realestate{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.25);}
+.badge-fintech{background:rgba(0,229,255,0.15);color:#00e5ff;border:1px solid rgba(0,229,255,0.25);}
+.badge-ecommerce{background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.25);}
+.badge-social{background:rgba(167,139,250,0.15);color:#c4b5fd;border:1px solid rgba(167,139,250,0.25);}
+.badge-legal{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.25);}
+.badge-travel{background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.25);}
+.badge-wellness{background:rgba(196,181,253,0.15);color:#c4b5fd;border:1px solid rgba(196,181,253,0.25);}
+.badge-automotive{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.25);}
+.badge-fitness{background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.25);}
+.badge-beauty{background:rgba(251,146,60,0.15);color:#fb923c;border:1px solid rgba(251,146,60,0.25);}
+.badge-adult{background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.25);}
+
+/* UAT / TEST CASES SECTION */
+#testcases{padding:6rem 4rem;}
+.uat-tabs{display:flex;gap:0;margin-bottom:2rem;border:1px solid var(--border);border-radius:0.5rem;overflow:hidden;width:fit-content;}
+.uat-tab{font-family:'DM Mono',monospace;font-size:0.75rem;padding:0.7rem 1.5rem;background:transparent;border:none;color:var(--text-muted);cursor:none;letter-spacing:0.06em;transition:all 0.2s;border-right:1px solid var(--border);}
+.uat-tab:last-child{border-right:none;}
+.uat-tab.active{background:var(--accent);color:#000;font-weight:500;}
+.uat-panel{display:none;}
+.uat-panel.active{display:block;}
+
+/* BUG TABLE */
+.bug-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.bug-stat{background:var(--surface);border:1px solid var(--border);border-radius:0.5rem;padding:1.25rem 1.5rem;text-align:center;}
+.bug-stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:0.25rem;}
+.bug-stat-num.verified{color:var(--accent3);}
+.bug-stat-num.fixed{color:var(--accent);}
+.bug-stat-num.hold{color:var(--accent4);}
+.bug-stat-num.total{color:var(--text);}
+.bug-stat-label{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;}
+
+.bug-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:0.5rem;}
+.bug-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.bug-table th{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);padding:0.85rem 1rem;text-align:left;background:var(--surface);border-bottom:1px solid var(--border);white-space:nowrap;}
+.bug-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);color:var(--text-muted);vertical-align:top;line-height:1.5;}
+.bug-table tr:last-child td{border-bottom:none;}
+.bug-table tr:hover td{background:rgba(255,255,255,0.02);}
+.bug-id{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--accent2);white-space:nowrap;}
+.bug-module{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--accent4);white-space:nowrap;}
+.status-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.18rem 0.6rem;border-radius:0.25rem;letter-spacing:0.05em;white-space:nowrap;}
+.status-verified{background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.3);}
+.status-fixed{background:rgba(0,229,255,0.15);color:#00e5ff;border:1px solid rgba(0,229,255,0.3);}
+.status-hold{background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);}
+.status-new{background:rgba(124,58,237,0.15);color:#a78bfa;border:1px solid rgba(124,58,237,0.3);}
+.status-reopen{background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.3);}
+.bug-desc{max-width:420px;color:var(--text-muted);}
+.show-more-btn{font-family:'DM Mono',monospace;font-size:0.72rem;padding:0.6rem 1.5rem;background:transparent;border:1px solid var(--border);color:var(--text-muted);border-radius:0.25rem;cursor:none;margin-top:1.25rem;transition:all 0.2s;display:block;}
+.show-more-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* CERTIFICATIONS */
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;}
+.cert-card{display:flex;gap:1.25rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:0.5rem;padding:1.5rem;transition:border-color 0.3s;}
+.cert-card:hover{border-color:rgba(0,229,255,0.3);}
+.cert-icon{width:44px;height:44px;background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(124,58,237,0.15));border:1px solid var(--border);border-radius:0.4rem;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.cert-name{font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;margin-bottom:0.25rem;line-height:1.3;}
+.cert-issuer{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--accent2);letter-spacing:0.05em;}
+
+/* EDUCATION */
+#education{background:var(--surface);}
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;}
+.edu-card{background:var(--bg);border:1px solid var(--border);border-radius:0.5rem;padding:1.5rem;transition:border-color 0.3s,transform 0.3s;}
+.edu-card:hover{border-color:rgba(0,229,255,0.25);transform:translateY(-3px);}
+.edu-period{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--accent);letter-spacing:0.06em;margin-bottom:0.5rem;}
+.edu-degree{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.25rem;}
+.edu-inst{font-size:0.85rem;color:var(--text-muted);margin-bottom:0.15rem;}
+.edu-loc{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text-muted);opacity:0.5;}
+
+/* CONTACT */
+.contact-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3.5rem);line-height:1.1;margin-bottom:1.5rem;letter-spacing:-0.02em;}
+.contact-title span{color:var(--accent);}
+.contact-text{font-size:1rem;line-height:1.7;color:var(--text-muted);max-width:400px;}
+.contact-item{display:flex;align-items:center;gap:1rem;background:var(--surface);border:1px solid var(--border);border-radius:0.5rem;padding:1.25rem 1.5rem;transition:border-color 0.3s;text-decoration:none;}
+.contact-item:hover{border-color:var(--accent);}
+.contact-icon{font-size:1.1rem;}
+.contact-label{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;}
+.contact-value{font-size:0.92rem;color:var(--text);margin-top:0.15rem;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;}
+.footer-left,.footer-right{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text-muted);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(24px);}to{opacity:1;transform:translateX(0);}}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--accent2);border-radius:2px;}
+
+@media(max-width:960px){
+  nav{padding:1.2rem 2rem;}.nav-links{display:none;}
+  #hero{grid-template-columns:1fr;padding:7rem 2rem 4rem;}.hero-right{display:none;}
+  section{padding:4rem 2rem;}.stats-bar{grid-template-columns:repeat(3,1fr);}
+  .bug-summary{grid-template-columns:repeat(2,1fr);}
+  footer{padding:1.5rem 2rem;flex-direction:column;gap:0.5rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">QA Engineer</a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#testcases">Test Reports</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-badge">Available for hire</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb1"></div><div class="hero-orb2"></div>
+  <div class="hero-left">
+    <div class="hero-tag">Software Quality Analyst</div>
+    <h1 class="hero-name">Siddhant<br><span>Aryan</span></h1>
+    <p class="hero-role">QA Engineer & Test Architect</p>
+    <p class="hero-desc">Leading quality assurance across 30+ web, mobile, and SaaS products. Specializing in automation with Playwright & Selenium, API validation, AI feature testing, and Web3 — building bulletproof software from the inside out.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="t-dot red"></div><div class="t-dot yellow"></div><div class="t-dot green"></div>
+        <span class="t-title">qa-profile.js</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">node qa-profile.js</span></div>
+        <div style="height:0.5rem"></div>
+        <div class="t-output">➜ <span class="t-key">name</span>: <span class="t-val">"Siddhant Aryan"</span></div>
+        <div class="t-output">➜ <span class="t-key">role</span>: <span class="t-val">"Software QA Analyst"</span></div>
+        <div class="t-output">➜ <span class="t-key">projects</span>: <span class="t-val">15+</span></div>
+        <div class="t-output">➜ <span class="t-key">expertise</span>: [</div>
+        <div class="t-output" style="padding-left:3rem"><span class="t-val">"Playwright"</span>,</div>
+        <div class="t-output" style="padding-left:3rem"><span class="t-val">"Selenium"</span>,</div>
+        <div class="t-output" style="padding-left:3rem"><span class="t-val">"API Testing"</span>,</div>
+        <div class="t-output" style="padding-left:3rem"><span class="t-val">"AI &amp; Web3 Testing"</span></div>
+        <div class="t-output">]</div>
+        <div class="t-output">➜ <span class="t-key">bugs_reported</span>: <span class="t-val">100+</span></div>
+        <div class="t-output">➜ <span class="t-key">status</span>: <span class="t-val">"open_to_work"</span></div>
+        <div style="height:0.5rem"></div>
+        <div class="t-line"><span class="t-prompt">$</span> <span class="t-cursor-blink"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item" style="animation-delay:0.1s"><div class="stat-num">15+</div><div class="stat-label">Projects Delivered</div></div>
+  <div class="stat-item" style="animation-delay:0.2s"><div class="stat-num">150+</div><div class="stat-label">API Endpoints Tested</div></div>
+  <div class="stat-item" style="animation-delay:0.3s"><div class="stat-num">100+</div><div class="stat-label">Bugs Reported</div></div>
+  <div class="stat-item" style="animation-delay:0.35s"><div class="stat-num">9</div><div class="stat-label">Tax Countries Tested</div></div>
+  <div class="stat-item" style="animation-delay:0.4s"><div class="stat-num">2yr</div><div class="stat-label">Industry Experience</div></div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Expertise</div>
+  <h2 class="section-title">Skills & Toolset</h2>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="skill-cat">Test Automation</div><div class="skill-name">Frameworks</div><div class="skill-tags"><span class="skill-tag">Playwright</span><span class="skill-tag">Selenium</span><span class="skill-tag">Cypress</span><span class="skill-tag">JUnit</span></div></div>
+    <div class="skill-card"><div class="skill-cat">API & Backend</div><div class="skill-name">API Testing</div><div class="skill-tags"><span class="skill-tag">Postman</span><span class="skill-tag">REST APIs</span><span class="skill-tag">MongoDB</span><span class="skill-tag">SQL</span></div></div>
+    <div class="skill-card"><div class="skill-cat">Languages</div><div class="skill-name">Programming</div><div class="skill-tags"><span class="skill-tag">JavaScript</span><span class="skill-tag">Java</span><span class="skill-tag">Python</span><span class="skill-tag">React</span><span class="skill-tag">Node.js</span></div></div>
+    <div class="skill-card"><div class="skill-cat">Test Types</div><div class="skill-name">QA Methodologies</div><div class="skill-tags"><span class="skill-tag">Functional</span><span class="skill-tag">Regression</span><span class="skill-tag">System Testing</span><span class="skill-tag">Unit Testing</span><span class="skill-tag">UAT</span><span class="skill-tag">UI/UX</span></div></div>
+    <div class="skill-card"><div class="skill-cat">Emerging Areas</div><div class="skill-name">Advanced Testing</div><div class="skill-tags"><span class="skill-tag">AI Feature Testing</span><span class="skill-tag">OCR Validation</span><span class="skill-tag">Web3 Testing</span><span class="skill-tag">Payment Testing</span></div></div>
+    <div class="skill-card"><div class="skill-cat">Tools & Process</div><div class="skill-name">DevOps & Agile</div><div class="skill-tags"><span class="skill-tag">Git & GitHub</span><span class="skill-tag">Jira</span><span class="skill-tag">Figma</span><span class="skill-tag">Scrum</span><span class="skill-tag">SDLC</span><span class="skill-tag">STLC</span></div></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="padding:6rem 4rem;">
+  <div class="section-label">Work History</div>
+  <h2 class="section-title">Experience</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="exp-period">07/2025 – Present</div>
+      <div class="exp-role">Software Quality Analyst</div>
+      <div class="exp-company">Canws Technology</div>
+      <div class="exp-loc">📍 Mohali, Punjab</div>
+      <p class="exp-desc">Technology services company delivering scalable web, mobile, and SaaS-based software solutions across multiple industries, focusing on reliable, user-centric products through agile methodologies.</p>
+      <ul class="exp-bullets">
+        <li>Lead quality assurance across 30+ web, mobile, and SaaS applications, ensuring high standards of functionality, usability, and performance.</li>
+        <li>Own the complete QA lifecycle — requirement analysis, test strategy, test case design, execution, regression testing, and release sign-off.</li>
+        <li>Collaborate with product managers, developers, and designers to integrate quality-focused practices early in the SDLC.</li>
+        <li>Drive continuous improvement in QA processes, reducing production defects and improving overall product reliability.</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:var(--accent2);box-shadow:0 0 12px var(--accent2);"></div>
+      <div class="exp-period">07/2024 – 07/2025</div>
+      <div class="exp-role">Software QA Engineer</div>
+      <div class="exp-company">Gemlay Jewels Pvt Ltd</div>
+      <div class="exp-loc">📍 Mohali, Punjab</div>
+      <p class="exp-desc">Jewelry-focused company innovating in software, developing subscription-based platforms for optimizing the buying, selling, and trading of gold and diamonds.</p>
+      <ul class="exp-bullets">
+        <li>Served as the sole QA Engineer, independently managing the entire testing lifecycle across multiple business-critical platforms.</li>
+        <li>Conducted API testing on 150+ endpoints using Postman and database validation using MongoDB.</li>
+        <li>Worked directly with clients and cross-functional teams to align testing with business requirements and delivery timelines.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Case Studies</div>
+  <h2 class="section-title">Projects <span style="font-size:1.2rem;color:var(--text-muted);font-weight:400;">(15)</span></h2>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProjects('all',this)">All</button>
+    <button class="filter-btn" onclick="filterProjects('web',this)">Web</button>
+    <button class="filter-btn" onclick="filterProjects('mobile',this)">Mobile</button>
+    <button class="filter-btn" onclick="filterProjects('ai',this)">AI</button>
+    <button class="filter-btn" onclick="filterProjects('fintech',this)">FinTech</button>
+    <button class="filter-btn" onclick="filterProjects('ecommerce',this)">E-Commerce</button>
+  </div>
+  <div class="projects-grid">
+
+    <!-- 1 -->
+    <div class="project-card" data-tags="web mobile transport">
+      <div class="project-num">01 / PROJECT</div>
+      <span class="industry-badge badge-transport">Transportation</span>
+      <div class="project-title">Freelancer Driver — Luxury Vehicle Booking</div>
+      <div class="project-sub">US-Based · Web &amp; Mobile · Full Stack QA</div>
+      <p class="project-desc">A full-stack platform for booking luxury cars and SUVs for VIP clients with rides scheduled 36+ hours in advance, covering driver, customer, and admin modules.</p>
+      <ul class="project-highlights">
+        <li>Led QA from initial planning to production release with US-based clients</li>
+        <li>Tested driver onboarding, ride booking, vehicle listing, scheduling, payments</li>
+        <li>Validated all modules across web and mobile platforms end-to-end</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Functional</span><span class="stack-tag">Regression</span><span class="stack-tag">API Validation</span><span class="stack-tag">Mobile QA</span><span class="stack-tag">UI Testing</span></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="project-card" data-tags="web mobile ai edtech">
+      <div class="project-num">02 / PROJECT</div>
+      <span class="industry-badge badge-edtech">EdTech · AI</span>
+      <div class="project-title">Story Scroll — AI-Powered Education Platform</div>
+      <div class="project-sub">EdTech · Web &amp; Mobile · AI Testing</div>
+      <p class="project-desc">AI-driven educational ecosystem connecting parents, teachers, and students through homework automation, performance tracking, and progress analytics.</p>
+      <ul class="project-highlights">
+        <li>Validated RBAC across Parent, Teacher, and Student portals</li>
+        <li>Tested AI-generated homework and student performance reports</li>
+        <li>Conducted functional, UI, regression, and cross-platform testing</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">AI Testing</span><span class="stack-tag">RBAC Validation</span><span class="stack-tag">Regression</span><span class="stack-tag">Mobile QA</span></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="project-card" data-tags="web mobile realestate">
+      <div class="project-num">03 / PROJECT</div>
+      <span class="industry-badge badge-realestate">Real Estate · Construction</span>
+      <div class="project-title">Quality Sync Solutions (QSS)</div>
+      <div class="project-sub">Multi-Tenant · Web, Mobile &amp; Admin · UAT</div>
+      <p class="project-desc">Multi-tenant QA platform for home builders, trade companies, inspectors, and community managers to track construction defects and issue resolution.</p>
+      <ul class="project-highlights">
+        <li>End-to-end testing across Web, Mobile, and Admin portals</li>
+        <li>Validated 6 role types: Super Admin, Builder, Inspector, CM, Trade Co., Tradesman</li>
+        <li>58+ bugs documented across Dashboard, Inspections, Trades, and Subscriptions</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">E2E Testing</span><span class="stack-tag">Multi-Role Testing</span><span class="stack-tag">Workflow Validation</span><span class="stack-tag">UAT</span></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="project-card" data-tags="web mobile ecommerce">
+      <div class="project-num">04 / PROJECT</div>
+      <span class="industry-badge badge-ecommerce">Laundry · Logistics</span>
+      <div class="project-title">BlueWave Laundry</div>
+      <div class="project-sub">Subscription Platform · Web &amp; Mobile</div>
+      <p class="project-desc">Subscription-based laundry management platform streamlining pickup, cleaning, delivery, and order tracking operations end-to-end.</p>
+      <ul class="project-highlights">
+        <li>Tested complete order lifecycle from pickup to delivery</li>
+        <li>Validated Stripe payment gateway and subscription workflows</li>
+        <li>Validated driver, customer, laundry center, and admin roles</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Payment Testing</span><span class="stack-tag">Subscription QA</span><span class="stack-tag">Functional</span><span class="stack-tag">Mobile QA</span></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="project-card" data-tags="mobile ai social">
+      <div class="project-num">05 / PROJECT</div>
+      <span class="industry-badge badge-social">Social · AI</span>
+      <div class="project-title">Synglee — AI-Based Dating Platform</div>
+      <div class="project-sub">Mobile · AI Matching · Social Networking</div>
+      <p class="project-desc">AI-powered dating platform matching users based on interests, preferences, behavior, and location with intelligent recommendation algorithms.</p>
+      <ul class="project-highlights">
+        <li>Tested AI-driven matching and engagement recommendation mechanisms</li>
+        <li>Validated onboarding, chat, profile boosts, and date scheduling</li>
+        <li>Managed client communication and release validation activities</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Mobile Testing</span><span class="stack-tag">AI Validation</span><span class="stack-tag">UX Testing</span><span class="stack-tag">Regression</span></div>
+    </div>
+
+    <!-- 6 -->
+    <div class="project-card" data-tags="web mobile legal">
+      <div class="project-num">06 / PROJECT</div>
+      <span class="industry-badge badge-legal">LegalTech</span>
+      <div class="project-title">LexMatch — Legal Services Platform</div>
+      <div class="project-sub">Web &amp; Mobile · LegalTech · Marketplace</div>
+      <p class="project-desc">Legal marketplace connecting clients with lawyers for consultations, case assistance, and appointment scheduling across multiple practice areas.</p>
+      <ul class="project-highlights">
+        <li>Tested lawyer and client onboarding, appointment booking, and communication</li>
+        <li>Full QA ownership from requirements to delivery</li>
+        <li>Conducted regression and usability testing throughout development</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Functional</span><span class="stack-tag">Workflow Validation</span><span class="stack-tag">E2E Testing</span><span class="stack-tag">Usability</span></div>
+    </div>
+
+    <!-- 7 -->
+    <div class="project-card" data-tags="web mobile ai fintech">
+      <div class="project-num">07 / PROJECT</div>
+      <span class="industry-badge badge-fintech">FinTech · AI · TaxTech</span>
+      <div class="project-title">Tesseract Tax — AI Tax Analysis Platform</div>
+      <div class="project-sub">Web, Mobile &amp; Desktop · Multi-Country · AI</div>
+      <p class="project-desc">AI-powered tax solution analyzing tax documents, providing insights, and assisting with tax planning across 9 countries including USA, India, UK, Australia, Singapore, Germany, Italy, Netherlands, and Philippines.</p>
+      <ul class="project-highlights">
+        <li>Tested AI tax analysis, OCR extraction, and Gemini AI integrations</li>
+        <li>Validated multi-country tax workflows and compliance rules</li>
+        <li>24+ bugs documented across Tax Estimate, File Return, Vault, and Year Comparison</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">AI Testing</span><span class="stack-tag">OCR Validation</span><span class="stack-tag">Multi-Country</span><span class="stack-tag">Desktop QA</span><span class="stack-tag">Mobile QA</span></div>
+    </div>
+
+    <!-- 8 -->
+    <div class="project-card" data-tags="web mobile travel">
+      <div class="project-num">08 / PROJECT</div>
+      <span class="industry-badge badge-travel">Travel · Hospitality</span>
+      <div class="project-title">Trillope — Travel &amp; Holiday Booking</div>
+      <div class="project-sub">Web &amp; Mobile · Booking Platform</div>
+      <p class="project-desc">Travel booking platform enabling users to reserve hotels, cruises, activities, and complete travel itineraries with seamless search and payment experience.</p>
+      <ul class="project-highlights">
+        <li>Tested booking workflows, itinerary management, and reservation systems</li>
+        <li>Validated payment, search, and travel package functionalities</li>
+        <li>End-to-end testing across multiple user journey flows</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Booking QA</span><span class="stack-tag">Functional</span><span class="stack-tag">Regression</span><span class="stack-tag">E2E Testing</span></div>
+    </div>
+
+    <!-- 9 -->
+    <div class="project-card" data-tags="web mobile wellness">
+      <div class="project-num">09 / PROJECT</div>
+      <span class="industry-badge badge-wellness">Wellness · Consulting</span>
+      <div class="project-title">InnerPal — Wellness &amp; Spiritual Guidance</div>
+      <div class="project-sub">Web &amp; Mobile · Wellness Platform</div>
+      <p class="project-desc">Platform connecting users with professional consultants for guidance on relationships, stress management, and personal development journeys.</p>
+      <ul class="project-highlights">
+        <li>Tested consultant booking, communication, and scheduling features</li>
+        <li>Validated user onboarding and consultation workflows</li>
+        <li>Conducted end-to-end functional testing and bug verification</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Functional</span><span class="stack-tag">Workflow Testing</span><span class="stack-tag">UX Validation</span></div>
+    </div>
+
+    <!-- 10 -->
+    <div class="project-card" data-tags="web fintech ecommerce">
+      <div class="project-num">10 / PROJECT</div>
+      <span class="industry-badge badge-fintech">Gold &amp; Commodity Trading</span>
+      <div class="project-title">Gemlay Bullion</div>
+      <div class="project-sub">Web · Subscription Platform · API Testing</div>
+      <p class="project-desc">Subscription-based platform for managing buying, selling, and trading of gold and diamonds with real-time pricing and trade execution.</p>
+      <ul class="project-highlights">
+        <li>Sole QA Engineer with complete testing ownership</li>
+        <li>API testing for 150+ endpoints using Postman</li>
+        <li>Database validation using MongoDB for trade data integrity</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">API Testing</span><span class="stack-tag">Database QA</span><span class="stack-tag">Postman</span><span class="stack-tag">MongoDB</span></div>
+    </div>
+
+    <!-- 11 -->
+    <div class="project-card" data-tags="web mobile ecommerce">
+      <div class="project-num">11 / PROJECT</div>
+      <span class="industry-badge badge-ecommerce">E-Commerce · Jewelry</span>
+      <div class="project-title">Gemlay Jewels</div>
+      <div class="project-sub">Web, Mobile &amp; Admin · E-Commerce</div>
+      <p class="project-desc">Online jewelry marketplace offering rings, necklaces, earrings, gold coins, and luxury products with a complete CRM admin panel.</p>
+      <ul class="project-highlights">
+        <li>Tested customer storefront, mobile app, and admin CRM panels</li>
+        <li>Validated inventory, product management, checkout, and order flows</li>
+        <li>Conducted payment and regression testing across all platforms</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">E-Commerce QA</span><span class="stack-tag">Admin Testing</span><span class="stack-tag">Checkout Validation</span><span class="stack-tag">Mobile QA</span></div>
+    </div>
+
+    <!-- 12 -->
+    <div class="project-card" data-tags="web ecommerce beauty">
+      <div class="project-num">12 / PROJECT</div>
+      <span class="industry-badge badge-beauty">Beauty · Cosmetics · Germany</span>
+      <div class="project-title">Vankazo</div>
+      <div class="project-sub">Web · Germany-Based · E-Commerce</div>
+      <p class="project-desc">Germany-based beauty marketplace allowing users to purchase beauty products and trial-size samples before committing to full-size products.</p>
+      <ul class="project-highlights">
+        <li>Tested product discovery, sample ordering, and checkout workflows</li>
+        <li>Validated user account management and order processing</li>
+        <li>Functional and regression testing across all user flows</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">E-Commerce QA</span><span class="stack-tag">Functional</span><span class="stack-tag">Regression</span></div>
+    </div>
+
+    <!-- 13 -->
+    <div class="project-card" data-tags="web mobile adult">
+      <div class="project-num">13 / PROJECT</div>
+      <span class="industry-badge badge-adult">Adult Entertainment · Marketplace</span>
+      <div class="project-title">Erotika Maps</div>
+      <div class="project-sub">Web, Mobile &amp; Admin · Multi-Country</div>
+      <p class="project-desc">Multi-country platform supporting user interactions, online communication, and booking-based service management across web and mobile applications.</p>
+      <ul class="project-highlights">
+        <li>Tested customer, service provider, and admin modules</li>
+        <li>Validated messaging, video communication, booking, and profiles</li>
+        <li>End-to-end testing across web and mobile applications</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Functional</span><span class="stack-tag">Mobile Testing</span><span class="stack-tag">Admin Validation</span><span class="stack-tag">E2E</span></div>
+    </div>
+
+    <!-- 14 -->
+    <div class="project-card" data-tags="mobile ai fitness">
+      <div class="project-num">14 / PROJECT</div>
+      <span class="industry-badge badge-fitness">Fitness · Health · AI</span>
+      <div class="project-title">Gym Manager</div>
+      <div class="project-sub">Mobile · Fitness Management · AI</div>
+      <p class="project-desc">Fitness management platform enabling users to book gym sessions, subscribe to memberships, and receive AI-assisted fitness guidance and trainer interactions.</p>
+      <ul class="project-highlights">
+        <li>Tested membership plans, booking workflows, and trainer interactions</li>
+        <li>Validated AI-based fitness guidance feature accuracy</li>
+        <li>Bug verification and regression testing throughout release cycle</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Mobile Testing</span><span class="stack-tag">AI Validation</span><span class="stack-tag">Functional</span></div>
+    </div>
+
+    <!-- 15 -->
+    <div class="project-card" data-tags="web mobile automotive">
+      <div class="project-num">15 / PROJECT</div>
+      <span class="industry-badge badge-automotive">Automotive · UK</span>
+      <div class="project-title">Car02 — Automotive Services Marketplace</div>
+      <div class="project-sub">UK-Based · Web &amp; Mobile · Marketplace</div>
+      <p class="project-desc">UK-based marketplace connecting vehicle owners with service providers for towing, fuel delivery, repairs, washing, and roadside assistance.</p>
+      <ul class="project-highlights">
+        <li>Tested service request creation and provider bidding workflows</li>
+        <li>Validated communication, booking, and service acceptance processes</li>
+        <li>Functional and regression testing across all platform flows</li>
+      </ul>
+      <div class="project-stack"><span class="stack-tag">Marketplace QA</span><span class="stack-tag">Functional</span><span class="stack-tag">E2E Validation</span><span class="stack-tag">Mobile QA</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TEST CASES / UAT REPORTS -->
+<section id="testcases" style="padding:6rem 4rem;">
+  <div class="section-label">Live QA Work</div>
+  <h2 class="section-title">UAT Bug Reports</h2>
+  <p style="font-size:0.95rem;color:var(--text-muted);max-width:680px;margin-bottom:2.5rem;line-height:1.7;">Real bug reports from production QA cycles — demonstrating my ability to identify, document, and communicate defects with precision across complex multi-module platforms.</p>
+
+  <div class="uat-tabs">
+    <button class="uat-tab active" onclick="switchUAT('qss',this)">QSS — Home Builder</button>
+    <button class="uat-tab" onclick="switchUAT('tax',this)">Tesseract Tax — Mobile</button>
+  </div>
+
+  <!-- QSS PANEL -->
+  <div class="uat-panel active" id="panel-qss">
+    <div class="bug-summary">
+      <div class="bug-stat"><div class="bug-stat-num total">58</div><div class="bug-stat-label">Total Bugs</div></div>
+      <div class="bug-stat"><div class="bug-stat-num verified">28</div><div class="bug-stat-label">Verified</div></div>
+      <div class="bug-stat"><div class="bug-stat-num fixed">22</div><div class="bug-stat-label">Fixed</div></div>
+      <div class="bug-stat"><div class="bug-stat-num hold">3</div><div class="bug-stat-label">On Hold</div></div>
+    </div>
+    <div class="bug-table-wrap">
+      <table class="bug-table">
+        <thead>
+          <tr><th>Bug ID</th><th>Module</th><th>Description</th><th>Status</th></tr>
+        </thead>
+        <tbody id="qss-tbody">
+          <tr><td class="bug-id">HB-QSS-0001</td><td class="bug-module">Dashboard</td><td class="bug-desc">Dashboard data showing static values related to users, communities, issues, and inspections.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0002</td><td class="bug-module">Customer Info</td><td class="bug-desc">When updating customer information, the state dropdown in address field is not displaying any options.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0003</td><td class="bug-module">Customer Info</td><td class="bug-desc">Validation color and message should automatically disappear when the required field is filled.</td><td><span class="status-badge status-hold">Future Dev</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0004</td><td class="bug-module">Customer Info</td><td class="bug-desc">Account Contact (non-official user): add 10-digit validation on phone number field.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0005</td><td class="bug-module">Billing Info</td><td class="bug-desc">When "Same as Corporate Address" is selected, all corporate address details should auto-populate in billing info.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0006</td><td class="bug-module">Subscription</td><td class="bug-desc">In subscription, the total resulting user count is showing "NaN" instead of a numeric value.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0007</td><td class="bug-module">Subscription</td><td class="bug-desc">Not able to purchase subscription from Settings → Subscription screen.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0008</td><td class="bug-module">Subscription</td><td class="bug-desc">Subscription screen UI/content is different when accessed from Settings vs User section — should be consistent.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0009</td><td class="bug-module">Subscription</td><td class="bug-desc">Unable to add billing address in subscription due to broken state dropdown field.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0010</td><td class="bug-module">User — Add</td><td class="bug-desc">Not able to verify new user; system showing "unauthorized role" error on email link login.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0011</td><td class="bug-module">User List</td><td class="bug-desc">In user list with 6 users, exporting to PDF or XLS only shows 4 users — export count mismatch.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0012</td><td class="bug-module">User Details</td><td class="bug-desc">In User Details, profile picture is showing twice — one duplicate should be removed.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0013</td><td class="bug-module">User Details</td><td class="bug-desc">In User Details, assigned communities and trade type are not visible to the user.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0014</td><td class="bug-module">Export PDF/XLS</td><td class="bug-desc">Upon downloading the PDF, an error is displayed instead of the document.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0016</td><td class="bug-module">Communities</td><td class="bug-desc">Unable to create communities because state dropdown is not showing in community address detail.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0017</td><td class="bug-module">Communities List</td><td class="bug-desc">When exporting communities list to PDF or Excel, wrong community manager name is displayed.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0018</td><td class="bug-module">Communities Edit</td><td class="bug-desc">When editing a community, the Community Manager name and phone number fields do not display previously saved info.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0021</td><td class="bug-module">Inspection</td><td class="bug-desc">Add new inspection: date/time showing default current time with current time validation — should not show default, let users fill manually.</td><td><span class="status-badge status-reopen">Reopened</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0022</td><td class="bug-module">Inspection Report</td><td class="bug-desc">CM/Tradesman notes and attachments are not displayed in the inspection report view.</td><td><span class="status-badge status-hold">On Hold</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0023</td><td class="bug-module">Inspection Edit</td><td class="bug-desc">HB should be able to edit inspection date before it starts, and a notification should be sent about the date change.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0025</td><td class="bug-module">Inspection</td><td class="bug-desc">Rescheduling an inspection is not working — unable to reschedule from the inspection detail screen.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0026</td><td class="bug-module">Inspection Logs</td><td class="bug-desc">Non-Negotiable questions are not being logged in the inspection logs section.</td><td><span class="status-badge status-hold">On Hold</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0027</td><td class="bug-module">Trades</td><td class="bug-desc">In Trade Details, when HB wants to inactive a tradesman, clicking on status does not show the dropdown.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0028</td><td class="bug-module">Trades</td><td class="bug-desc">When HB downloads the tradesman issue PDF, an error is shown instead of the document.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0030</td><td class="bug-module">Tradesmen List</td><td class="bug-desc">Exporting PDF and XLS shows all tradesmen from admin — HB should only see their 4 assigned tradesmen.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0031</td><td class="bug-module">Invite Trade</td><td class="bug-desc">After inviting a new tradesman, no success confirmation message is shown to the HB.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0032</td><td class="bug-module">Invite Trade</td><td class="bug-desc">When tradesman clicks verification link in invitation, they are prompted for credentials not included in the invitation email.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0034</td><td class="bug-module">Custom Issue</td><td class="bug-desc">When deleting a custom issue already in use, the error message should clearly state it cannot be deleted because it's in use.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0036</td><td class="bug-module">Connections</td><td class="bug-desc">Remove the unnecessary "Folder" column from the Connections listing screen.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0038</td><td class="bug-module">Bug — Add</td><td class="bug-desc">When creating a bug, both image and video are marked mandatory — should be either/or, not both required.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0039</td><td class="bug-module">Bug — Video</td><td class="bug-desc">Video playback not working after submission; upload fails with "video failed to upload" error.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0041</td><td class="bug-module">Bug Export</td><td class="bug-desc">Exporting Excel/PDF includes Process fields not present in the original template — field mismatch.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0045</td><td class="bug-module">Suggestion</td><td class="bug-desc">Creating a new suggestion causes the date/time of the previous suggestion to automatically update to the new timestamp.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0047</td><td class="bug-module">Suggestion Edit</td><td class="bug-desc">When editing a suggestion, two images display (old + new); removing old also removes new upload simultaneously.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0048</td><td class="bug-module">Chat</td><td class="bug-desc">Every message sent or received in chat auto-generates a Testing-ID (e.g., Testing-ID:80, 81…) displayed with the message.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0049</td><td class="bug-module">Purchase Email</td><td class="bug-desc">User purchased subscription for 5 users but purchase confirmation email shows total user count as 0.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0050</td><td class="bug-module">Terminology</td><td class="bug-desc">After customizing name, three-dot action menu is visible but clicking it does not trigger delete icon — action missing.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0054</td><td class="bug-module">HB/TA Profile</td><td class="bug-desc">Profile picture not showing correctly; random text appears in profile area when no picture is added — needs default icon.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0055</td><td class="bug-module">Profile Edit</td><td class="bug-desc">In profile edit, billing info "Same as corporate address" auto-deselects unexpectedly on save.</td><td><span class="status-badge status-fixed">Fixed</span></td></tr>
+          <tr><td class="bug-id">HB-QSS-0056</td><td class="bug-module">Inspection Reschedule</td><td class="bug-desc">After updating reschedule date and opening the new rescheduled inspection, the new reschedule date is not visible.</td><td><span class="status-badge status-verified">Verified</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAX PANEL -->
+  <div class="uat-panel" id="panel-tax">
+    <div class="bug-summary">
+      <div class="bug-stat"><div class="bug-stat-num total">24</div><div class="bug-stat-label">Total Bugs</div></div>
+      <div class="bug-stat"><div class="bug-stat-num" style="color:var(--accent2);">24</div><div class="bug-stat-label">New / Open</div></div>
+      <div class="bug-stat"><div class="bug-stat-num" style="color:var(--accent4);">9</div><div class="bug-stat-label">Countries Tested</div></div>
+      <div class="bug-stat"><div class="bug-stat-num" style="color:var(--accent3);">3</div><div class="bug-stat-label">Platforms</div></div>
+    </div>
+    <div class="bug-table-wrap">
+      <table class="bug-table">
+        <thead>
+          <tr><th>Bug ID</th><th>Module</th><th>Description</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="bug-id">Tax-001</td><td class="bug-module">Institution</td><td class="bug-desc">Newly added institution is not visible in institution list; detected institutions shows 0 after saving.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-002</td><td class="bug-module">Tax Year</td><td class="bug-desc">New tax year not selected as default; year value displays with comma formatting in "Create Tax Year" popup.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-003</td><td class="bug-module">Document Processing</td><td class="bug-desc">Import/action icons appear overlapping. Mortgage document imports instead of the selected W-2 document — wrong document mapping.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-004</td><td class="bug-module">Document Processing</td><td class="bug-desc">Clicking "Done" after saving PDF does not redirect to PDF listing; clicking multiple times creates duplicate copies.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-005</td><td class="bug-module">Document Processing</td><td class="bug-desc">Best-Effort Extraction message wording is too long and technical — needs shorter, more user-friendly copy.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-006</td><td class="bug-module">Document Processing</td><td class="bug-desc">Institution status continues showing "Pending" even after all details are completed and documents imported successfully.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-007</td><td class="bug-module">Import 1040</td><td class="bug-desc">Existing institutions not detected during 1040 import. Manually added institution not saved. No submit option. Navigating back resets all parsed data.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-008</td><td class="bug-module">Property Tax</td><td class="bug-desc">"Extract Address" button non-functional; references scanning but no scan/upload functionality is visible in the UI.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-009</td><td class="bug-module">Tax Estimate</td><td class="bug-desc">After importing all tax documents, Tax Estimate still shows $0 extracted amounts. Re-Extract also returns $0 — no calculations performed.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-010</td><td class="bug-module">Tax Estimate — AI</td><td class="bug-desc">Asking AI about taxes returns "Taxpayer Rights" IRC references instead of contextual answers — static data fetched instead of query processing.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-011</td><td class="bug-module">Tax Estimate — UI</td><td class="bug-desc">Screen title "Tax Estimate — 2,0..." is truncated and overflows outside header area on mobile — not responsive.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-012</td><td class="bug-module">Tax Saving — AI</td><td class="bug-desc">"Generate AI Tax Analysis" shows predefined static suggestions instead of context-aware responses based on uploaded documents — AI not using user data.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-013</td><td class="bug-module">Carry Forward</td><td class="bug-desc">Clicking on the Carry Forward section is not functioning — page does not load or respond to tap.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-014</td><td class="bug-module">Add Other File</td><td class="bug-desc">Document upload completes silently with no success toast. Document count doesn't update. Uploaded image preview is missing from details page.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-015</td><td class="bug-module">File Return (US)</td><td class="bug-desc">Tax filing screen shows incorrect refund: Total Income=$0, AGI=$0, Tax=$0, Refund=$10,383. Refund sums withholding values instead of actual tax calculations.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-016</td><td class="bug-module">File Return — Fields</td><td class="bug-desc">Federal, withholding, and estimated payment input fields are prefilled with "0.00" as actual values, not placeholders — user must manually delete before entering.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-017</td><td class="bug-module">File Extension (US)</td><td class="bug-desc">"Unlock Federal Filing" popup has text alignment and padding issues — content/layout has spacing problems though buttons function correctly.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-018</td><td class="bug-module">Document Chat — AI</td><td class="bug-desc">Document Chat incorrectly requests Anthropic API key even when Remote AI mode is selected — misleading for users expecting Remote AI to work without manual key setup.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-019</td><td class="bug-module">Year Comparison (IND)</td><td class="bug-desc">Excessive empty spacing between year selectors, refresh button, and comparison sections — layout appears unbalanced and unfinished.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-020</td><td class="bug-module">Year Comparison (IND)</td><td class="bug-desc">Institution Comparison "Action" column remains empty even after uploading all institution documents for both years.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-021</td><td class="bug-module">Year Comparison (IND)</td><td class="bug-desc">Income Comparison section shows "No extracted amounts available" even after documents are uploaded for 2024 and 2025.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-022</td><td class="bug-module">Vault</td><td class="bug-desc">Clicking "Import CSV" in Vault section does nothing — no file picker opens, no loader, no response. Button appears non-functional.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-023</td><td class="bug-module">Vault</td><td class="bug-desc">Copy icon beside saved credentials is non-functional — no copy action and no confirmation message displayed.</td><td><span class="status-badge status-new">New</span></td></tr>
+          <tr><td class="bug-id">Tax-024</td><td class="bug-module">Export</td><td class="bug-desc">Export success message appears but exported ZIP/CSV files are not available in device files folder — silent export failure.</td><td><span class="status-badge status-new">New</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" style="padding:6rem 4rem;background:var(--surface);">
+  <div class="section-label">Credentials</div>
+  <h2 class="section-title">Certifications</h2>
+  <div class="certs-grid">
+    <div class="cert-card">
+      <div class="cert-icon">🎓</div>
+      <div class="cert-info">
+        <div class="cert-name">Software Engineering: Implementation and Testing</div>
+        <div class="cert-issuer">Hong Kong University of Science &amp; Technology · Coursera</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🧪</div>
+      <div class="cert-info">
+        <div class="cert-name">Web and Mobile Testing with Selenium</div>
+        <div class="cert-issuer">University of Minnesota · Coursera</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">Academic Background</div>
+  <h2 class="section-title">Education</h2>
+  <div class="edu-grid">
+    <div class="edu-card"><div class="edu-period">2025 – 2027</div><div class="edu-degree">M.Tech in Computer Science</div><div class="edu-inst">Rajiv Gandhi Prodyogiki Vishwavidyalaya</div><div class="edu-loc">Bhopal, MP</div></div>
+    <div class="edu-card"><div class="edu-period">2021 – 2025</div><div class="edu-degree">B.E in Computer Science</div><div class="edu-inst">Chandigarh University</div><div class="edu-loc">Mohali, Punjab</div></div>
+    <div class="edu-card"><div class="edu-period">2018 – 2020</div><div class="edu-degree">Intermediate of Science</div><div class="edu-inst">K.P College Murliganj</div><div class="edu-loc">Murliganj, Bihar</div></div>
+    <div class="edu-card"><div class="edu-period">2017 – 2018</div><div class="edu-degree">Matriculation</div><div class="edu-inst">Rajnandan PD H/S Murliganj</div><div class="edu-loc">Murliganj, Bihar</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section style="padding:6rem 4rem;" id="contact">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+    <div>
+      <div class="section-label">Get in Touch</div>
+      <h2 class="contact-title">Let's Build<br><span>Quality</span><br>Together.</h2>
+      <p class="contact-text">Open to freelance projects, full-time roles, and QA consulting. Let's connect and make sure your software ships with zero compromises.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <a class="contact-item" href="mailto:siddhantaryan09@gmail.com"><span class="contact-icon">✉️</span><div><div class="contact-label">Email</div><div class="contact-value">siddhantaryan09@gmail.com</div></div></a>
+      <a class="contact-item" href="tel:+919661301885"><span class="contact-icon">📱</span><div><div class="contact-label">Phone</div><div class="contact-value">+91 96613 01885</div></div></a>
+      <a class="contact-item" href="https://linkedin.com/in/siddhantaryan09" target="_blank"><span class="contact-icon">💼</span><div><div class="contact-label">LinkedIn</div><div class="contact-value">linkedin.com/in/siddhantaryan09</div></div></a>
+      <a class="contact-item" href="#"><span class="contact-icon">📍</span><div><div class="contact-label">Location</div><div class="contact-value">SAS Nagar, Mohali, Punjab</div></div></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">© 2025 Siddhant Aryan · QA Engineer</div>
+  <div class="footer-right">Built with precision — like all good software should be.</div>
+</footer>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx-5+'px';cursor.style.top=my-5+'px';});
+function animRing(){rx+=(mx-rx-18)*0.12;ry+=(my-ry-18)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+animRing();
+document.querySelectorAll('a,button,.skill-card,.project-card,.cert-card,.edu-card,.stat-item,.filter-btn,.uat-tab').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='scale(2.5)';ring.style.width='60px';ring.style.height='60px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='scale(1)';ring.style.width='36px';ring.style.height='36px';});
+});
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.15});
+document.querySelectorAll('.timeline-item').forEach(el=>obs.observe(el));
+
+// STAT COUNTER
+function animCount(el,target,suffix=''){
+  let s=0;const step=target/60;
+  const t=setInterval(()=>{s+=step;if(s>=target){el.textContent=target+suffix;clearInterval(t);return;}el.textContent=Math.floor(s)+suffix;},16);
+}
+const sObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){
+    e.target.querySelectorAll('.stat-num').forEach(n=>{
+      const t=n.textContent;
+      if(t==='15+')animCount(n,15,'+');
+      else if(t==='150+')animCount(n,150,'+');
+      else if(t==='100+')animCount(n,100,'+');
+      else if(t==='9')animCount(n,9);
+    });sObs.disconnect();}});},{threshold:0.3});
+const sb=document.querySelector('.stats-bar');if(sb)sObs.observe(sb);
+
+// PROJECT FILTER
+function filterProjects(tag,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(card=>{
+    if(tag==='all'){card.classList.remove('hidden');return;}
+    const tags=(card.dataset.tags||'').split(' ');
+    card.classList.toggle('hidden',!tags.includes(tag));
+  });
+}
+
+// UAT TAB SWITCH
+function switchUAT(name,btn){
+  document.querySelectorAll('.uat-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.uat-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+}
+</script>
+</body>
+</html>
