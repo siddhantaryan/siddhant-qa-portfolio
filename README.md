@@ -176,9 +176,11 @@ Laundry subscription platform.
 
 ## Contact
 
-[![Portfolio](https://img.shields.io/badge/Live-Portfolio-success)](https://siddhant-qa-portfolio.netlify.app/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue)](https://www.linkedin.com/in/siddhantaryan09)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-black)](https://github.com/siddhantaryan/siddhant-qa-portfolio)
+🌐 Live Portfolio: https://siddhant-qa-portfolio.netlify.app/
+
+📂 GitHub Repository: https://github.com/siddhantaryan/siddhant-qa-portfolio
+
+💼 LinkedIn: https://www.linkedin.com/in/siddhantaryan09
 
 📍 Mohali, Punjab, India
 
